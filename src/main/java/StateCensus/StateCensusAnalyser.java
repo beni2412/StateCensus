@@ -19,9 +19,7 @@ public class StateCensusAnalyser {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
 			
 			Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader, IndiaCensusCSV.class);
-			Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
-			int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-			return numOfEntries;
+			return this.getCount(censusCSVIterator);
 		} catch (IOException e) {
 			throw new CensusAnalyserException("File not found",
 					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -38,10 +36,8 @@ public class StateCensusAnalyser {
 					CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-			Iterator<IndiaStateCSV> censusCSVIterator = getCSVFileIterator(reader, IndiaStateCSV.class);
-			Iterable<IndiaStateCSV> csvIterable = () -> censusCSVIterator;
-			int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-			return numOfEntries;
+			Iterator<IndiaStateCSV> stateCSVIterator = this.getCSVFileIterator(reader, IndiaStateCSV.class);
+			return this.getCount(stateCSVIterator);
 		} catch (IOException e) {
 			throw new CensusAnalyserException("File not found",
 					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -64,5 +60,11 @@ public class StateCensusAnalyser {
 			throw new CensusAnalyserException("File data not proper",
 					CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 		}
+	}
+	
+	private<E> int getCount(Iterator<E> iterator) {
+		Iterable<E> csvIterable=() -> iterator;
+		int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+		return numOfEntries;
 	}
 }
