@@ -9,6 +9,7 @@ public class StateCensusAnalyserTest {
 	public static final String STATE_CENSUS_FILE_PATH = "./IndiaStateCensusData.csv";
 	private static final String STATE_CENSUS_WRONG_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
 	private static final String CENSUS_WRONG_TYPE_FILE_PATH = "./IndiaStateCensusData.txt";
+	private static final String CENSUS_WRONGHEADER_FILE_PATH = "./IndiaStateCode.csv";
 
 	@Before
 	public void initialize() {
@@ -39,4 +40,14 @@ public class StateCensusAnalyserTest {
 		   Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE, e.type);
 	   }
 	}
+	
+	@Test
+	public void givenStateCensus_WrongHeader_ShouldThrowException()  {
+	   try {
+		stateCensusAnalyser.loadIndiaCensusData(CENSUS_WRONGHEADER_FILE_PATH);
+	   }catch(CensusAnalyserException e) {
+		   Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
+	   }
+	}
+	
 }
