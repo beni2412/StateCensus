@@ -34,4 +34,28 @@ public class StateCensusAnalyser {
 
 		}
 	}
+	
+	public int loadIndiaStateCodeData(String csvFilePath) throws CensusAnalyserException {
+		if (!csvFilePath.contains(".csv")) {
+			throw new CensusAnalyserException("Not CSV file",
+					CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE);
+		}
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+			CsvToBeanBuilder<IndiaStateCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+			csvToBeanBuilder.withType(IndiaStateCSV.class);
+			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+			CsvToBean<IndiaStateCSV> csvToBean = csvToBeanBuilder.build();
+			Iterator<IndiaStateCSV> censusCSVIterator = csvToBean.iterator();
+			Iterable<IndiaStateCSV> csvIterable = () -> censusCSVIterator;
+			int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+			return numOfEntries;
+		} catch (IOException e) {
+			throw new CensusAnalyserException("File not found",
+					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+		} catch (RuntimeException e) {
+			throw new CensusAnalyserException("File data not proper",
+					CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+
+		}
+	}
 }
