@@ -28,8 +28,9 @@ public class StateCensusAnalyser {
 		} catch (IOException e) {
 			throw new CensusAnalyserException("File not found",
 					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-		} catch(IllegalStateException e) {
-			throw new CensusAnalyserException("File data not proper",CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+		} catch (RuntimeException e) {
+			throw new CensusAnalyserException("File data not proper",
+					CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 
 		}
 	}
