@@ -20,6 +20,11 @@ public class IndiaCensusCSV {
 		return pop;
 	}
 	
+	public int getPopulationDensity() {
+		int pop = Integer.parseInt(densityPerSqKm);
+		return pop;
+	}
+	
 	@Override
 	public String toString() {
 		return "IndiaCensusCSV{" +

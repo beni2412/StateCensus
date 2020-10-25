@@ -89,7 +89,15 @@ public class StateCensusAnalyser {
 			throw new CensusAnalyserException("File is empty", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 		}
 		Collections.sort(csvCensusList, Comparator.comparing(census -> census.getPopulationData()));
-		System.out.println(csvCensusList);
+		return new Gson().toJson(csvCensusList);
+	}
+	
+	public String getStatePopulationDensityWiseSortedCensusData() throws CensusAnalyserException {
+		if(csvCensusList == null || csvCensusList.size() == 0) {
+			throw new CensusAnalyserException("File is empty", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+		}
+		Collections.sort(csvCensusList, Comparator.comparing(census -> census.getPopulationDensity()));
+		Collections.reverse(csvCensusList);
 		return new Gson().toJson(csvCensusList);
 	}
 
