@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +95,14 @@ public class StateCensusAnalyser {
 				}
 			}
 		}
+	}
+	
+	public String getStateCodeWiseSortedCensusData() throws CensusAnalyserException {
+		if(csvStateList == null || csvStateList.size() == 0) {
+			throw new CensusAnalyserException("File is empty", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+		}
+		Collections.sort(csvStateList, Comparator.comparing(code -> code.stateCode));
+		return new Gson().toJson(csvStateList);
 	}
 
 	private <E> int getCount(Iterator<E> iterator) {

@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
 public class StateCodeTest {
 	private StateCensusAnalyser stateCensusAnalyser;
 	public static final String STATE_CODE_FILE_PATH = "./IndiaStateCode.csv";
@@ -32,32 +34,40 @@ public class StateCodeTest {
 			Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
 		}
 	}
-	
+
 	@Test
-	public void givenStateCode_WrongFileType_ShouldThrowException()  {
-	   try {
-		stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONG_TYPE_FILE_PATH);
-	   }catch(CensusAnalyserException e) {
-		   Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE, e.type);
-	   }
-	}
-	
-	@Test
-	public void givenStateCode_WrongHeader_ShouldThrowException()  {
-	   try {
-		stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONGHEADER_FILE_PATH);
-	   }catch(CensusAnalyserException e) {
-		   Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
-	   }
-	}
-	
-	 @Test
-		public void givenStateCode_WrongDelimiter_ShouldThrowException()  {
-		   try {
-			stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONG_DELIMITER_FILE_PATH);
-		   }catch(CensusAnalyserException e) {
-			   Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
-		   }
+	public void givenStateCode_WrongFileType_ShouldThrowException() {
+		try {
+			stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONG_TYPE_FILE_PATH);
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE, e.type);
 		}
-	
+	}
+
+	@Test
+	public void givenStateCode_WrongHeader_ShouldThrowException() {
+		try {
+			stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONGHEADER_FILE_PATH);
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
+		}
+	}
+
+	@Test
+	public void givenStateCode_WrongDelimiter_ShouldThrowException() {
+		try {
+			stateCensusAnalyser.loadIndiaStateCodeData(CODE_WRONG_DELIMITER_FILE_PATH);
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
+		}
+	}
+
+	@Test
+	public void censusSortedOnStateCode() throws CensusAnalyserException {
+		stateCensusAnalyser.loadIndiaStateCodeData(STATE_CODE_FILE_PATH);
+		String sortedCensusData = stateCensusAnalyser.getStateCodeWiseSortedCensusData();
+		IndiaStateCSV[] censusCsv = new Gson().fromJson(sortedCensusData, IndiaStateCSV[].class);
+		Assert.assertEquals("AD", censusCsv[0].stateCode);
+	}
+
 }
