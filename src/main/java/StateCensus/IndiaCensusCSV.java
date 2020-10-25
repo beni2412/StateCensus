@@ -33,4 +33,8 @@ public class IndiaCensusCSV {
                 ", AreaInSqKm='" + areaInSqKm + '\'' +
                 ", DensityPerSqKm='" + densityPerSqKm + '\'' +
                 '}';	}
+
+	public int getArea() {
+		return Integer.parseInt(areaInSqKm);
+	}
 }

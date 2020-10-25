@@ -47,7 +47,7 @@ public class StateCensusAnalyser {
 					CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 
 		} catch (CSVException e) {
-			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+			throw new CensusAnalyserException("File data not proper", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 		}
 	}
 
@@ -92,6 +92,8 @@ public class StateCensusAnalyser {
 		return new Gson().toJson(csvCensusList);
 	}
 	
+	
+	
 	public String getStatePopulationDensityWiseSortedCensusData() throws CensusAnalyserException {
 		if(csvCensusList == null || csvCensusList.size() == 0) {
 			throw new CensusAnalyserException("File is empty", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
@@ -100,6 +102,16 @@ public class StateCensusAnalyser {
 		Collections.reverse(csvCensusList);
 		return new Gson().toJson(csvCensusList);
 	}
+	
+	public String getStateAreaWiseSortedCensusData() throws CensusAnalyserException {
+		if(csvCensusList == null || csvCensusList.size() == 0) {
+			throw new CensusAnalyserException("File is empty", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+		}
+		Collections.sort(csvCensusList, Comparator.comparing(census -> census.getArea()));
+		Collections.reverse(csvCensusList);
+		return new Gson().toJson(csvCensusList);
+	}
+
 
 	private void sort(Comparator<IndiaCensusCSV> censusComparator) {
 		for (int i = 0; i < csvCensusList.size() - 1; i++) {
