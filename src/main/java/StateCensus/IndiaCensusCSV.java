@@ -15,6 +15,11 @@ public class IndiaCensusCSV {
 	@CsvBindByName(column = "DensityPerSqKm", required = true)
 	public String densityPerSqKm;
 	
+	public int getPopulationData() {
+		int pop = Integer.parseInt(population);
+		return pop;
+	}
+	
 	@Override
 	public String toString() {
 		return "IndiaCensusCSV{" +
