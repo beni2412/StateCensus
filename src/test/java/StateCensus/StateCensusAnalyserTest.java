@@ -19,7 +19,7 @@ public class StateCensusAnalyserTest {
 	}
 
 	@Test
-	public void givenStateCensusCSVFile_ShouldReturnNumberOfRecords() throws CSVException {
+	public void givenStateCensusCSVFile_ShouldReturnNumberOfRecords() throws CensusAnalyserException {
 		int numOfEntries = stateCensusAnalyser.loadIndiaCensusData(STATE_CENSUS_FILE_PATH);
 		Assert.assertEquals(29, numOfEntries);
 	}
@@ -28,8 +28,8 @@ public class StateCensusAnalyserTest {
 	public void givenStateCensus_WrongCSVFile_ShouldThrowException() {
 		try {
 			stateCensusAnalyser.loadIndiaCensusData(STATE_CENSUS_WRONG_FILE_PATH);
-		} catch (CSVException e) {
-			Assert.assertEquals(CSVException.ExceptionType.UNABLE_TO_PARSE, e.type);
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
 		}
 	}
 	
@@ -37,8 +37,8 @@ public class StateCensusAnalyserTest {
 	public void givenStateCensus_WrongFileType_ShouldThrowException()  {
 	   try {
 		stateCensusAnalyser.loadIndiaCensusData(CENSUS_WRONG_TYPE_FILE_PATH);
-	   }catch(CSVException e) {
-		   Assert.assertEquals(CSVException.ExceptionType.UNABLE_TO_PARSE, e.type);
+	   }catch(CensusAnalyserException e) {
+		   Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE, e.type);
 	   }
 	}
 	
@@ -46,8 +46,8 @@ public class StateCensusAnalyserTest {
 	public void givenStateCensus_WrongHeader_ShouldThrowException()  {
 	   try {
 		stateCensusAnalyser.loadIndiaCensusData(CENSUS_WRONGHEADER_FILE_PATH);
-	   }catch(CSVException e) {
-		   Assert.assertEquals(CSVException.ExceptionType.UNABLE_TO_PARSE, e.type);
+	   }catch(CensusAnalyserException e) {
+		   Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
 	   }
 	}
 	
@@ -55,8 +55,8 @@ public class StateCensusAnalyserTest {
 		public void givenStateCensus_WrongDelimiter_ShouldThrowException()  {
 		   try {
 			stateCensusAnalyser.loadIndiaCensusData(CENSUS_WRONG_DELIMITER_FILE_PATH);
-		   }catch(CSVException e) {
-			   Assert.assertEquals(CSVException.ExceptionType.UNABLE_TO_PARSE, e.type);
+		   }catch(CensusAnalyserException e) {
+			   Assert.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
 		   }
 		}
 	
