@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
+import com.cg.csvbuilder.CSVBuilderFactory;
+import com.cg.csvbuilder.CSVException;
+import com.cg.csvbuilder.ICSVBuilder;
+import com.cg.csvbuilder.OpenCSVBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -17,8 +21,8 @@ public class StateCensusAnalyser {
 					CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-
-			Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader,
+			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,
 					IndiaCensusCSV.class);
 			return this.getCount(censusCSVIterator);
 		} catch (IOException e) {
@@ -39,7 +43,8 @@ public class StateCensusAnalyser {
 					CensusAnalyserException.ExceptionType.INCORRECT_FILE_TYPE);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-			Iterator<IndiaStateCSV> stateCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader,
+			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			Iterator<IndiaStateCSV> stateCSVIterator =csvBuilder.getCSVFileIterator(reader,
 					IndiaStateCSV.class);
 			return this.getCount(stateCSVIterator);
 		} catch (IOException e) {

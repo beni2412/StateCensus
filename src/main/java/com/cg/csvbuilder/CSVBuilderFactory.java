@@ -1,4 +1,4 @@
-package StateCensus;
+package com.cg.csvbuilder;
 
 public class CSVBuilderFactory {
 

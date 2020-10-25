@@ -1,4 +1,4 @@
-package StateCensus;
+package com.cg.csvbuilder;
 
 import java.io.Reader;
 import java.util.Iterator;
